@@ -1,4 +1,15 @@
 /* styles.css */
 body {
 	background-color: rebeccapurple;
+	display: flex;
+	flex-direction: column;
+}
+body header * {
+	width: 100px;
+	height: 10px;
+	border: rgb(74, 5, 5) 1px dotted;
+}
+
+header {
+	display: flex;
 }
