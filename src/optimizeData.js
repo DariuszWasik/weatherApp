@@ -59,4 +59,6 @@ function optimizeData() {
 	console.log(allData, 'alldata');
 }
 
+//probably function gerReqiuredData should return the actual data in other modules
+
 export { requiredData, optimizeData };
