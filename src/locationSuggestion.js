@@ -1,10 +1,14 @@
+let debounceTimer;
+
 export function locationSuggestions() {
 	const cityInput = document.querySelector('#my-city');
 	cityInput.addEventListener('input', (event) => {
 		const inputValue = event.target.value;
-		if (inputValue.length >= 5) {
-			console.log(inputValue);
-			fetchCitySuggestions(inputValue);
+		clearTimeout(debounceTimer);
+		if (inputValue.length >= 3) {
+			debounceTimer = setTimeout(() => {
+				fetchCitySuggestions(inputValue);
+			}, 500);
 		}
 	});
 }
