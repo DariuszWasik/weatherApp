@@ -30,3 +30,20 @@ async function fetchCitySuggestions(value) {
 		console.log('Can not access data:', error);
 	}
 }
+
+function displaySuggestions(obj) {
+	const list = document.querySelector('#suggestions');
+	list.innerHTML = '';
+	for (let i = 0; i < 5; i++) {
+		if (!obj.geonames[i]) return;
+		const name = obj.geonames[i].toponymName;
+		const admin1 = obj.geonames[i].adminName1;
+		const admin2 = obj.geonames[i].adminName2;
+		const admin3 = obj.geonames[i].adminName3;
+		const country = obj.geonames[i].countryCode;
+		console.log(name);
+		const item = document.createElement('li');
+		item.innerText = `${name}, ${admin1}, ${admin3}, ${country}`;
+		list.append(item);
+	}
+}
