@@ -1,3 +1,4 @@
+import { optimizeData } from './optimizeData';
 import { searchByLocation } from './searchByLocation';
 
 let debounceTimer;
@@ -42,20 +43,34 @@ function displaySuggestions(obj) {
 	const list = document.querySelector('#suggestions');
 	list.innerHTML = '';
 	for (let i = 0; i < 8; i++) {
-		if (!obj.geonames[i]) return;
+		if (!obj.geonames[i]) break;
+
 		const name = obj.geonames[i].toponymName;
 		const admin1 = obj.geonames[i].adminName1;
-		const admin2 = obj.geonames[i].adminName2;
 		const admin3 = obj.geonames[i].adminName3;
 		const country = obj.geonames[i].countryCode;
 		console.log(name);
+
 		const item = document.createElement('li');
+		item.className = `item-${i}`;
 		item.innerText = `${name}, ${admin1}, ${admin3}, ${country}`;
-		item.addEventListener('click', () => {
+
+		async function handleClickOrEnter() {
 			theLocation = item.innerText;
 			console.log('the location:', theLocation);
-			searchByLocation(theLocation);
-		});
+			await searchByLocation(theLocation);
+			optimizeData();
+		}
+
+		item.addEventListener('click', handleClickOrEnter);
 		list.append(item);
 	}
+
+	const cityInput = document.querySelector('#my-city');
+	cityInput.addEventListener('keydown', (e) => {
+		if (e.key === 'Enter') {
+			const firstItem = document.querySelector('#suggestions li');
+			if (firstItem) firstItem.click();
+		}
+	});
 }
