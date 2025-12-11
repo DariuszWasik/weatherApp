@@ -6,7 +6,7 @@ async function searchByLocation(location) {
 		`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?unitGroup=metric&include=hours,days,current&key=GP4ERC9CCBP7EKM9KA7ZTY6LD&contentType=json`,
 	);
 	allData = await response.json();
-	console.log('allData', allData.currentConditions);
+	console.log('allData', allData);
 	return allData;
 }
 

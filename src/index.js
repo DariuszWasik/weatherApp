@@ -6,10 +6,10 @@ import { getAllData, searchByLocation } from './searchByLocation.js';
 
 async function init(place) {
 	locationSuggestions();
-	await searchByLocation(place);
-	console.log(getAllData());
+	// await searchByLocation(place);
+	// console.log(getAllData());
 
-	optimizeData();
+	// optimizeData();
 }
 
-init('uniejowice');
+init('wadowice gorne, subcarpatia, pl');

@@ -1,4 +1,7 @@
+import { searchByLocation } from './searchByLocation';
+
 let debounceTimer;
+let theLocation = '';
 
 export function locationSuggestions() {
 	const cityInput = document.querySelector('#my-city');
@@ -38,7 +41,7 @@ async function fetchCitySuggestions(value) {
 function displaySuggestions(obj) {
 	const list = document.querySelector('#suggestions');
 	list.innerHTML = '';
-	for (let i = 0; i < 5; i++) {
+	for (let i = 0; i < 8; i++) {
 		if (!obj.geonames[i]) return;
 		const name = obj.geonames[i].toponymName;
 		const admin1 = obj.geonames[i].adminName1;
@@ -48,6 +51,11 @@ function displaySuggestions(obj) {
 		console.log(name);
 		const item = document.createElement('li');
 		item.innerText = `${name}, ${admin1}, ${admin3}, ${country}`;
+		item.addEventListener('click', () => {
+			theLocation = item.innerText;
+			console.log('the location:', theLocation);
+			searchByLocation(theLocation);
+		});
 		list.append(item);
 	}
 }
