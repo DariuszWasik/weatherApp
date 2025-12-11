@@ -1,11 +1,13 @@
-import { allData } from './searchByLocation';
+// src/features/optimizeData.js
 
-const requiredData = {};
+export function optimizeData(allData) {
+	const requiredData = {};
 
-function optimizeData() {
-	// requiredData = getAllData();
+	// Podstawowe dane
 	requiredData.resolvedAddress = allData.resolvedAddress;
 	requiredData.tzoffset = allData.tzoffset;
+
+	// Aktualna pogoda
 	const {
 		feelslike,
 		humidity,
@@ -29,6 +31,8 @@ function optimizeData() {
 		windspeed,
 		windgust,
 	};
+
+	// Prognoza na 7 dni
 	requiredData.days = [];
 	for (let n = 0; n < 7; n++) {
 		const {
@@ -42,6 +46,7 @@ function optimizeData() {
 			conditions,
 			cloudcover,
 		} = allData.days[n];
+
 		requiredData.days[n] = {
 			datetime,
 			icon,
@@ -56,9 +61,6 @@ function optimizeData() {
 	}
 
 	console.log('requiredData', requiredData);
-	console.log(allData, 'alldata');
+
+	return requiredData; // zwracamy nowy obiekt
 }
-
-//probably function gerReqiuredData should return the actual data in other modules
-
-export { requiredData, optimizeData };
