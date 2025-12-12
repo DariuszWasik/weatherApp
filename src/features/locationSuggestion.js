@@ -3,6 +3,7 @@
 import { fetchCitySuggestions } from '../services/geonamesApi.js';
 import { searchByLocation } from '../services/weatherApi.js';
 import { optimizeData } from './optimizeData.js';
+import { renderWeather } from './renderWeather.js';
 
 let debounceTimer;
 let theLocation = '';
@@ -56,8 +57,10 @@ function displaySuggestions(obj) {
 			console.log('Selected location:', theLocation);
 			const allData = await searchByLocation(theLocation);
 			const requiredData = optimizeData(allData);
-			//tu bedzie renderWeather(reqiuredData)
+			//here comes renderWeather(reqiuredData)
+			renderWeather(requiredData);
 			console.log('optimized data: ', requiredData);
+			list.innerHTML = '';
 		});
 
 		list.append(item);
