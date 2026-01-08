@@ -24,5 +24,8 @@ export function renderWeather(requiredData) {
 	const nextDaysEl = document.querySelector('.next-days');
 
 	cityNameEl.textContent = requiredData.resolvedAddress;
-	dateTodayEl.textContent = `Today ${formatDate(requiredData.days[0].datetime)}`;
+
+	//box-1
+	dateTodayEl.textContent = `Today: ${formatDate(requiredData.days[0].datetime)}`;
+	``;
 }
