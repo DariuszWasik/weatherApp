@@ -25,7 +25,58 @@ export function renderWeather(requiredData) {
 
 	cityNameEl.textContent = requiredData.resolvedAddress;
 
+	const current = requiredData.currentConditions;
+	const today = requiredData.days[0];
+
 	//box-1
-	dateTodayEl.textContent = `Today: ${formatDate(requiredData.days[0].datetime)}`;
-	``;
+	dateTodayEl.textContent = `${formatDate(requiredData.days[0].datetime)}`;
+	iconCurrentEl.innerHTML = current.icon;
+	tempCurrentEl.textContent = Math.round(current.temp);
+	minTodayEl.textContent = `Min: ${Math.round(today.tempmin)}`;
+	maxTodayEl.textContent = `Max: ${Math.round(today.tempmax)}`;
+
+	// box-2 (feels like + opis)
+	feelslikeHeadEl.textContent = 'Feels like';
+	tempFeelslikeEl.textContent = `${Math.round(current.feelslike)}°C`;
+	descriptionEl.textContent = today.description || today.conditions || '';
+
+	// box-3 (wiatr)
+	windHeadEl.textContent = 'Wind';
+	windSpeedEl.textContent = `Speed: ${current.windspeed} km/h`;
+	windGustsEl.textContent = `Gusts: ${current.windgust} km/h`;
+
+	// extra-info
+	sunriseEl.textContent = `Sunrise: ${current.sunrise}`;
+	sunsetEl.textContent = `Sunset: ${current.sunset}`;
+	humidityEl.textContent = `Humidity: ${current.humidity}%`;
+	chanceOfRainEl.textContent = `Cloud cover: ${today.cloudcover}%`;
+
+	// next-days (prognoza 6 kolejnych dni)
+	nextDaysEl.innerHTML = ''; // wyczyść poprzednie
+
+	for (let i = 1; i < Math.min(requiredData.days.length, 7); i++) {
+		const day = requiredData.days[i];
+
+		const dayCard = document.createElement('div');
+		dayCard.className = 'day-card';
+
+		const dateEl = document.createElement('div');
+		dateEl.className = 'day-date';
+		dateEl.textContent = formatDate(day.datetime);
+
+		const tempEl = document.createElement('div');
+		tempEl.className = 'day-temp';
+		tempEl.textContent = `${Math.round(day.tempmin)}°C / ${Math.round(day.tempmax)}°C`;
+
+		const iconEl = document.createElement('div');
+		iconEl.className = 'day-icon';
+		iconEl.textContent = day.icon;
+
+		const descEl = document.createElement('div');
+		descEl.className = 'day-description';
+		descEl.textContent = day.description || day.conditions || '';
+
+		dayCard.append(dateEl, tempEl, iconEl, descEl);
+		nextDaysEl.append(dayCard);
+	}
 }
