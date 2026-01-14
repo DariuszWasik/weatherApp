@@ -85,11 +85,7 @@ header .search-bar {
 		rgba(125, 92, 255, 0.75)
 	);
 	box-shadow: var(--shadow);
-	display: none; /* włącz, jeśli chcesz icon w headerze */
-}
-
-.change-units {
-	display: none; /* placeholder na przyszłość */
+	display: none;
 }
 
 /* ===== Search input + button ===== */
@@ -218,16 +214,24 @@ header .search-bar {
 	margin: 6px 0 10px;
 }
 
+/* Kontener na ikonę główną */
 .icon-current {
-	width: 44px;
-	height: 44px;
+	width: 64px;
+	height: 64px;
 	border-radius: 12px;
 	background: rgba(255, 255, 255, 0.06);
 	border: 1px solid rgba(255, 255, 255, 0.12);
 	display: grid;
 	place-items: center;
-	color: var(--muted);
-	font-size: 12px; /* na razie tekst icon */
+	overflow: hidden;
+}
+
+/* Obrazek ikony głównej */
+.weather-icon-main {
+	width: 56px;
+	height: 56px;
+	display: block;
+	object-fit: contain;
 }
 
 .temp-current {
@@ -316,16 +320,24 @@ header .search-bar {
 	margin-bottom: 8px;
 }
 
+/* Kontener na ikony w prognozie */
 .day-icon {
-	height: 34px;
+	height: 50px;
 	display: grid;
 	place-items: center;
 	border-radius: 12px;
 	background: rgba(255, 255, 255, 0.06);
 	border: 1px solid rgba(255, 255, 255, 0.12);
-	color: var(--muted);
-	font-size: 12px;
+	overflow: hidden;
 	margin-bottom: 8px;
+}
+
+/* Obrazek ikony w prognozie */
+.weather-icon-small {
+	width: 42px;
+	height: 42px;
+	display: block;
+	object-fit: contain;
 }
 
 .day-description {

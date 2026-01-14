@@ -1,6 +1,7 @@
 import { formatDate } from '../utils/formatDate';
+import { getWeatherIcon } from '../utils/getWeatherIcon';
 
-export function renderWeather(requiredData) {
+export async function renderWeather(requiredData) {
 	const cityNameEl = document.querySelector('.city-name');
 	const dateTodayEl = document.querySelector('.date-today');
 	const iconCurrentEl = document.querySelector('.icon-current');
@@ -30,7 +31,10 @@ export function renderWeather(requiredData) {
 
 	//box-1
 	dateTodayEl.textContent = `${formatDate(requiredData.days[0].datetime)}`;
-	iconCurrentEl.innerHTML = current.icon;
+	// iconCurrentEl.innerHTML = current.icon;
+	const iconUrl = await getWeatherIcon(current.icon);
+	iconCurrentEl.innerHTML = `<img src="${iconUrl}" alt="${current.icon}" class="weather-icon-main">`;
+
 	tempCurrentEl.textContent = Math.round(current.temp);
 	minTodayEl.textContent = `Min: ${Math.round(today.tempmin)}`;
 	maxTodayEl.textContent = `Max: ${Math.round(today.tempmax)}`;
