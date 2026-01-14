@@ -35,9 +35,9 @@ export async function renderWeather(requiredData) {
 	const iconUrl = await getWeatherIcon(current.icon);
 	iconCurrentEl.innerHTML = `<img src="${iconUrl}" alt="${current.icon}" class="weather-icon-main">`;
 
-	tempCurrentEl.textContent = Math.round(current.temp);
-	minTodayEl.textContent = `Min: ${Math.round(today.tempmin)}`;
-	maxTodayEl.textContent = `Max: ${Math.round(today.tempmax)}`;
+	tempCurrentEl.textContent = `${Math.round(current.temp)}°C`;
+	minTodayEl.textContent = `Min: ${Math.round(today.tempmin)}°C`;
+	maxTodayEl.textContent = `Max: ${Math.round(today.tempmax)}°C`;
 
 	// box-2 (feels like + opis)
 	feelslikeHeadEl.textContent = 'Feels like';
@@ -58,7 +58,7 @@ export async function renderWeather(requiredData) {
 	// next-days (prognoza 6 kolejnych dni)
 	nextDaysEl.innerHTML = ''; // wyczyść poprzednie
 
-	for (let i = 1; i < Math.min(requiredData.days.length, 7); i++) {
+	for (let i = 0; i < Math.min(requiredData.days.length, 7); i++) {
 		const day = requiredData.days[i];
 
 		const dayCard = document.createElement('div');
@@ -74,7 +74,10 @@ export async function renderWeather(requiredData) {
 
 		const iconEl = document.createElement('div');
 		iconEl.className = 'day-icon';
-		iconEl.textContent = day.icon;
+		const iconUrl = await getWeatherIcon(day.icon);
+		iconEl.innerHTML = `<img src="${iconUrl}" alt="${day.icon}" class="weather-icon-small">`;
+
+		// iconEl.textContent = day.icon;
 
 		const descEl = document.createElement('div');
 		descEl.className = 'day-description';
