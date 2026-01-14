@@ -159,6 +159,11 @@ header .search-bar {
 	background: rgba(255, 255, 255, 0.08);
 }
 
+#suggestions li.active {
+	background: rgba(90, 209, 255, 0.16);
+	border: 1px solid rgba(90, 209, 255, 0.35);
+}
+
 /* ===== Main content container ===== */
 .content {
 	max-width: 980px;
