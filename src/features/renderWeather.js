@@ -58,7 +58,7 @@ export async function renderWeather(requiredData) {
 	// next-days (prognoza 6 kolejnych dni)
 	nextDaysEl.innerHTML = ''; // wyczyść poprzednie
 
-	for (let i = 0; i < Math.min(requiredData.days.length, 7); i++) {
+	for (let i = 1; i < Math.min(requiredData.days.length, 7); i++) {
 		const day = requiredData.days[i];
 
 		const dayCard = document.createElement('div');
