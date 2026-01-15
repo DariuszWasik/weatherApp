@@ -1,5 +1,6 @@
 import { formatDate } from '../utils/formatDate';
 import { getWeatherIcon } from '../utils/getWeatherIcon';
+import { getWindDirection } from '../utils/getWindDirection';
 
 export async function renderWeather(requiredData) {
 	const cityNameEl = document.querySelector('.city-name');
@@ -16,6 +17,15 @@ export async function renderWeather(requiredData) {
 	const windHeadEl = document.querySelector('.wind-head');
 	const windSpeedEl = document.querySelector('.wind-speed');
 	const windGustsEl = document.querySelector('.wind-gusts');
+	const windDirDegrees = requiredData.currentConditions.winddir;
+	const windArrowEl = document.querySelector('#wind-arrow');
+	const windDirTextEl = document.querySelector('#wind-dir-text');
+
+	if (windArrowEl && windDirTextEl) {
+		//rotate the arrow according to winddir
+		windArrowEl.style.transform = `rotate(${windDirDegrees}deg)`;
+		windDirTextEl.textContent = getWindDirection(windDirDegrees);
+	}
 
 	const sunriseEl = document.querySelector('.sunrise');
 	const sunsetEl = document.querySelector('.sunset');

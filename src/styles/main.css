@@ -353,6 +353,29 @@ header .search-bar {
 	background: rgba(255, 255, 255, 0.03); /* Bardzo delikatne białe tło */
 }
 
+.wind-direction-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 10px;
+	gap: 5px;
+}
+
+#wind-arrow {
+	font-size: 34px;
+	font-weight: bold;
+	transition: transform 0.5s ease-in-out;
+	color: var(--accent-color, #00d4ff);
+	-webkit-text-stroke: 2px currentColor;
+}
+
+#wind-dir-text {
+	margin-top: -10px;
+	font-size: 16px;
+	font-weight: 600;
+	color: var(--muted);
+}
+
 /* ===== Responsive ===== */
 @media (max-width: 860px) {
 	.current {
