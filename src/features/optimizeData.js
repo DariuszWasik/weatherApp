@@ -18,6 +18,7 @@ export function optimizeData(allData) {
 		temp,
 		windspeed,
 		windgust,
+		winddir,
 	} = allData.currentConditions;
 
 	requiredData.currentConditions = {
@@ -30,6 +31,7 @@ export function optimizeData(allData) {
 		temp,
 		windspeed,
 		windgust,
+		winddir,
 	};
 
 	// Prognoza na 7 dni
@@ -45,7 +47,16 @@ export function optimizeData(allData) {
 			windgust,
 			conditions,
 			cloudcover,
+			hours,
 		} = allData.days[n];
+
+		const optimizedHours = (hours || []).map((hour) => ({
+			datetime: hour.datetime,
+			temp: hour.temp,
+			icon: hour.icon,
+			windspeed: hour.windspeed,
+			winddir: hour.winddir,
+		}));
 
 		requiredData.days[n] = {
 			datetime,
@@ -57,6 +68,7 @@ export function optimizeData(allData) {
 			windgust,
 			conditions,
 			cloudcover,
+			hours: optimizedHours,
 		};
 	}
 
