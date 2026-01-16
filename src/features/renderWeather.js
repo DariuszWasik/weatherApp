@@ -23,7 +23,7 @@ export async function renderWeather(requiredData) {
 	const windDirTextEl = document.querySelector('#wind-dir-text');
 
 	if (windArrowEl && windDirTextEl) {
-		//rotate the arrow according to winddir
+		// Rotate the arrow according to winddir
 		windArrowEl.style.transform = `rotate(${windDirDegrees}deg)`;
 		windDirTextEl.textContent = getWindDirection(windDirDegrees);
 	}
@@ -38,11 +38,10 @@ export async function renderWeather(requiredData) {
 	cityNameEl.textContent = requiredData.resolvedAddress;
 
 	const current = requiredData.currentConditions;
-	const today = requiredData.days[0];
+	const today = requiredData.days[0]; // Define 'today' early so it's accessible everywhere
 
-	//box-1
-	dateTodayEl.textContent = `${formatDate(requiredData.days[0].datetime)}`;
-	// iconCurrentEl.innerHTML = current.icon;
+	// Box-1
+	dateTodayEl.textContent = `${formatDate(today.datetime)}`;
 	const iconUrl = await getWeatherIcon(current.icon);
 	iconCurrentEl.innerHTML = `<img src="${iconUrl}" alt="${current.icon}" class="weather-icon-main">`;
 
@@ -50,65 +49,77 @@ export async function renderWeather(requiredData) {
 	minTodayEl.textContent = `Min: ${Math.round(today.tempmin)}°C`;
 	maxTodayEl.textContent = `Max: ${Math.round(today.tempmax)}°C`;
 
-	// Renderowanie godzin w box-1
+	// Rendering hours in box-1
 	const hoursContainer = document.querySelector('.hours');
 
 	if (hoursContainer) {
-		hoursContainer.innerHTML = ''; // Czyścimy stare dane
+		hoursContainer.innerHTML = ''; // Clear old data
 
 		const relevantHours = getRelevantHours(
 			requiredData.days,
 			requiredData.tzoffset,
 		);
 
-		// Używamy pętli for...of, bo w środku mamy "await" dla ikon
+		// Using for...of loop because we have "await" for icons inside
 		for (const hour of relevantHours) {
 			const hourDiv = document.createElement('div');
 			hourDiv.className = 'hour-item';
+			hourDiv.style.cursor = 'pointer';
 
-			// Przygotowujemy dane do wyświetlenia
+			// Prepare data for display
 			const timeLabel = hour.isNight ? '23-6' : hour.datetime.slice(0, 5);
-			const iconUrl = await getWeatherIcon(hour.icon);
+			const hourIconUrl = await getWeatherIcon(hour.icon);
 
-			// Jeśli to noc, pokazujemy zakres temp, jeśli godzina - jedną temp
+			// If it's night, show temp range; if hour - single temp
 			const tempDisplay = hour.isNight
 				? `${Math.round(hour.tempMin)}°/${Math.round(hour.tempMax)}°`
 				: `${Math.round(hour.temp)}°`;
 
 			hourDiv.innerHTML = `
-            <span class="hour-time">${timeLabel}</span>
-            <img src="${iconUrl}" alt="icon" class="hour-icon">
-            <span class="hour-temp">${tempDisplay}</span>
-        `;
+				<span class="hour-time">${timeLabel}</span>
+				<img src="${hourIconUrl}" alt="icon" class="hour-icon">
+				<span class="hour-temp">${tempDisplay}</span>
+			`;
+
+			// Add click listener to open modal with today's full hourly data
+			hourDiv.addEventListener('click', (e) => {
+				console.log('Hour clicked!'); // Debug log
+				showHourlyModal(today);
+			});
 
 			hoursContainer.appendChild(hourDiv);
 		}
 	}
 
-	// box-2 (feels like + opis)
+	// Box-2 (feels like + description)
 	feelslikeHeadEl.textContent = 'Feels like';
 	tempFeelslikeEl.textContent = `${Math.round(current.feelslike)}°C`;
 	descriptionEl.textContent = today.description || today.conditions || '';
 
-	// box-3 (wiatr)
+	// Box-3 (wind)
 	windHeadEl.textContent = 'Wind';
 	windSpeedEl.textContent = `Speed: ${current.windspeed} km/h`;
 	windGustsEl.textContent = `Gusts: ${current.windgust} km/h`;
 
-	// extra-info
+	// Extra-info
 	sunriseEl.textContent = `Sunrise: ${current.sunrise}`;
 	sunsetEl.textContent = `Sunset: ${current.sunset}`;
 	humidityEl.textContent = `Humidity: ${current.humidity}%`;
 	chanceOfRainEl.textContent = `Cloud cover: ${today.cloudcover}%`;
 
-	// next-days (prognoza 6 kolejnych dni)
-	nextDaysEl.innerHTML = ''; // wyczyść poprzednie
+	// Next-days (forecast for next 6 days)
+	nextDaysEl.innerHTML = ''; // Clear previous
 
 	for (let i = 1; i < Math.min(requiredData.days.length, 7); i++) {
 		const day = requiredData.days[i];
 
 		const dayCard = document.createElement('div');
 		dayCard.className = 'day-card';
+		dayCard.style.cursor = 'pointer';
+		dayCard.addEventListener('click', () => {
+			console.log('Day clicked!'); // Debug log
+			showHourlyModal(day);
+		});
 
 		const dateEl = document.createElement('div');
 		dateEl.className = 'day-date';
@@ -120,10 +131,8 @@ export async function renderWeather(requiredData) {
 
 		const iconEl = document.createElement('div');
 		iconEl.className = 'day-icon';
-		const iconUrl = await getWeatherIcon(day.icon);
-		iconEl.innerHTML = `<img src="${iconUrl}" alt="${day.icon}" class="weather-icon-small">`;
-
-		// iconEl.textContent = day.icon;
+		const dayIconUrl = await getWeatherIcon(day.icon);
+		iconEl.innerHTML = `<img src="${dayIconUrl}" alt="${day.icon}" class="weather-icon-small">`;
 
 		const descEl = document.createElement('div');
 		descEl.className = 'day-description';
@@ -132,4 +141,50 @@ export async function renderWeather(requiredData) {
 		dayCard.append(dateEl, tempEl, iconEl, descEl);
 		nextDaysEl.append(dayCard);
 	}
+}
+async function showHourlyModal(dayData) {
+	const modal = document.getElementById('hourly-modal');
+	const tableBody = document.getElementById('modal-table-body');
+	const modalTitle = document.getElementById('modal-title');
+
+	// Pobieramy nazwę dnia tygodnia (np. "Monday")
+	const dateObj = new Date(dayData.datetime);
+	const dayName = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(
+		dateObj,
+	);
+
+	// Ustawiamy tytuł: "Monday, 2024-05-20"
+	modalTitle.textContent = `Hourly Forecast: ${dayName}, ${dayData.datetime}`;
+
+	tableBody.innerHTML = ''; // Czyścimy stare dane
+
+	for (const hour of dayData.hours) {
+		const row = document.createElement('tr');
+		const iconUrl = await getWeatherIcon(hour.icon);
+
+		row.innerHTML = `
+			<td>${hour.datetime.substring(0, 5)}</td>
+			<td>
+				<img src="${iconUrl}" class="modal-icon" alt="${hour.icon}">
+			</td>
+			<td><strong>${Math.round(hour.temp)}°C</strong></td>
+			<td>${hour.precip || 0} mm</td>
+			<td>
+				<div class="wind-cell">
+					<span>${Math.round(hour.windspeed)} km/h</span>
+					<span class="wind-arrow-small" style="transform: rotate(${hour.winddir}deg)">↑</span>
+				</div>
+			</td>
+		`;
+		tableBody.appendChild(row);
+	}
+
+	modal.classList.remove('hidden');
+
+	const closeBtn = document.getElementById('close-modal');
+	const overlay = modal.querySelector('.modal-overlay');
+
+	const closeModal = () => modal.classList.add('hidden');
+	closeBtn.onclick = closeModal;
+	overlay.onclick = closeModal;
 }

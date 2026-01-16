@@ -57,5 +57,32 @@
         <!-- <div class="hours"></div> -->
         <div class="next-days"></div>
     </div>
+
+    <!-- Modal for hourly details -->
+<div id="hourly-modal" class="modal hidden">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+        <header class="modal-header">
+            <h3 id="modal-title">Hourly Forecast</h3>
+            <button id="close-modal" class="close-btn">&times;</button>
+        </header>
+        <div class="modal-body">
+            <table class="hourly-table">
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Weather</th>
+                        <th>Temp</th>
+                        <th>Precip</th>
+                        <th>Wind</th>
+                    </tr>
+                </thead>
+                <tbody id="modal-table-body">
+                    <!-- Rows will be injected here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 </body>
 </html>
