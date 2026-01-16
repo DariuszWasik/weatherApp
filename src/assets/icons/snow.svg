@@ -1,30 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
-  <path d="M 22 48 Q 22 36 30 32 Q 30 25 38 25 Q 42 18 50 21 Q 58 21 63 28 Q 71 28 71 40 Q 71 48 63 48 Z" fill="#B0BEC5" stroke="#90A4AE" stroke-width="2"/>
-  <g fill="#E3F2FD" stroke="#BBDEFB" stroke-width="1.5">
-    <g transform="translate(30, 58)">
-      <line x1="0" y1="-5" x2="0" y2="5" stroke="#BBDEFB" stroke-width="1.5"/>
-      <line x1="-4.3" y1="-2.5" x2="4.3" y2="2.5" stroke="#BBDEFB" stroke-width="1.5"/>
-      <line x1="-4.3" y1="2.5" x2="4.3" y2="-2.5" stroke="#BBDEFB" stroke-width="1.5"/>
-    </g>
-    <g transform="translate(46, 62)">
-      <line x1="0" y1="-5" x2="0" y2="5" stroke="#BBDEFB" stroke-width="1.5"/>
-      <line x1="-4.3" y1="-2.5" x2="4.3" y2="2.5" stroke="#BBDEFB" stroke-width="1.5"/>
-      <line x1="-4.3" y1="2.5" x2="4.3" y2="-2.5" stroke="#BBDEFB" stroke-width="1.5"/>
-    </g>
-    <g transform="translate(62, 58)">
-      <line x1="0" y1="-5" x2="0" y2="5" stroke="#BBDEFB" stroke-width="1.5"/>
-      <line x1="-4.3" y1="-2.5" x2="4.3" y2="2.5" stroke="#BBDEFB" stroke-width="1.5"/>
-      <line x1="-4.3" y1="2.5" x2="4.3" y2="-2.5" stroke="#BBDEFB" stroke-width="1.5"/>
-    </g>
-    <g transform="translate(38, 70)">
-      <line x1="0" y1="-5" x2="0" y2="5" stroke="#BBDEFB" stroke-width="1.5"/>
-      <line x1="-4.3" y1="-2.5" x2="4.3" y2="2.5" stroke="#BBDEFB" stroke-width="1.5"/>
-      <line x1="-4.3" y1="2.5" x2="4.3" y2="-2.5" stroke="#BBDEFB" stroke-width="1.5"/>
-    </g>
-    <g transform="translate(54, 72)">
-      <line x1="0" y1="-5" x2="0" y2="5" stroke="#BBDEFB" stroke-width="1.5"/>
-      <line x1="-4.3" y1="-2.5" x2="4.3" y2="2.5" stroke="#BBDEFB" stroke-width="1.5"/>
-      <line x1="-4.3" y1="2.5" x2="4.3" y2="-2.5" stroke="#BBDEFB" stroke-width="1.5"/>
-    </g>
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="cloud-grad5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e0e8f0" />
+      <stop offset="100%" style="stop-color:#c5d4e0" />
+    </linearGradient>
+  </defs>
+  <path d="M48,36a10,10,0,0,0-2-19.7,14,14,0,0,0-26,6.7,9,9,0,0,0,0,18h28a10,10,0,0,0,0-5Z" fill="url(#cloud-grad5)" />
+  <path d="M48,36a10,10,0,0,0-2-19.7,14,14,0,0,0-26,6.7,9,9,0,0,0,0,18h28a10,10,0,0,0,0-5Z" fill="#fff" opacity="0.5" />
+  <g fill="#fff">
+    <circle cx="22" cy="48" r="3" />
+    <circle cx="32" cy="52" r="3" />
+    <circle cx="42" cy="48" r="3" />
+    <circle cx="27" cy="54" r="2.5" />
+    <circle cx="37" cy="46" r="2.5" />
   </g>
 </svg>
