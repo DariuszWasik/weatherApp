@@ -1,4 +1,5 @@
 import { formatDate } from '../utils/formatDate';
+import { getRelevantHours } from '../utils/getRelevantHours';
 import { getWeatherIcon } from '../utils/getWeatherIcon';
 import { getWindDirection } from '../utils/getWindDirection';
 
@@ -48,6 +49,38 @@ export async function renderWeather(requiredData) {
 	tempCurrentEl.textContent = `${Math.round(current.temp)}°C`;
 	minTodayEl.textContent = `Min: ${Math.round(today.tempmin)}°C`;
 	maxTodayEl.textContent = `Max: ${Math.round(today.tempmax)}°C`;
+
+	// Renderowanie godzin w box-1
+	const hoursContainer = document.querySelector('.hours');
+
+	if (hoursContainer) {
+		hoursContainer.innerHTML = ''; // Czyścimy stare dane
+
+		const relevantHours = getRelevantHours(requiredData.days);
+
+		// Używamy pętli for...of, bo w środku mamy "await" dla ikon
+		for (const hour of relevantHours) {
+			const hourDiv = document.createElement('div');
+			hourDiv.className = 'hour-item';
+
+			// Przygotowujemy dane do wyświetlenia
+			const timeLabel = hour.isNight ? '23-6' : hour.datetime.slice(0, 5);
+			const iconUrl = await getWeatherIcon(hour.icon);
+
+			// Jeśli to noc, pokazujemy zakres temp, jeśli godzina - jedną temp
+			const tempDisplay = hour.isNight
+				? `${Math.round(hour.tempMin)}°/${Math.round(hour.tempMax)}°`
+				: `${Math.round(hour.temp)}°`;
+
+			hourDiv.innerHTML = `
+            <span class="hour-time">${timeLabel}</span>
+            <img src="${iconUrl}" alt="icon" class="hour-icon">
+            <span class="hour-temp">${tempDisplay}</span>
+        `;
+
+			hoursContainer.appendChild(hourDiv);
+		}
+	}
 
 	// box-2 (feels like + opis)
 	feelslikeHeadEl.textContent = 'Feels like';
