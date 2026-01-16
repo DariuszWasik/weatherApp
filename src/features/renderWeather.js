@@ -56,7 +56,10 @@ export async function renderWeather(requiredData) {
 	if (hoursContainer) {
 		hoursContainer.innerHTML = ''; // Czyścimy stare dane
 
-		const relevantHours = getRelevantHours(requiredData.days);
+		const relevantHours = getRelevantHours(
+			requiredData.days,
+			requiredData.tzoffset,
+		);
 
 		// Używamy pętli for...of, bo w środku mamy "await" dla ikon
 		for (const hour of relevantHours) {

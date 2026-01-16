@@ -1,6 +1,12 @@
-export function getRelevantHours(days) {
+export function getRelevantHours(days, tzoffset) {
 	const now = new Date();
-	const currentHour = now.getHours();
+
+	//utc time
+	const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+	//utx time +timezone offset
+	const localTime = new Date(utc + 3600000 * tzoffset);
+
+	const currentHour = localTime.getHours();
 
 	const todayHours = days[0].hours;
 	const tomorrowHours = days[1]?.hours || [];
