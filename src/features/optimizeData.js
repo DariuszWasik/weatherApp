@@ -3,11 +3,11 @@
 export function optimizeData(allData) {
 	const requiredData = {};
 
-	// Podstawowe dane
+	// Basic data
 	requiredData.resolvedAddress = allData.resolvedAddress;
 	requiredData.tzoffset = allData.tzoffset;
 
-	// Aktualna pogoda
+	// Current weather
 	const {
 		feelslike,
 		humidity,
@@ -19,6 +19,7 @@ export function optimizeData(allData) {
 		windspeed,
 		windgust,
 		winddir,
+		precip, // Added precipitation
 	} = allData.currentConditions;
 
 	requiredData.currentConditions = {
@@ -32,9 +33,10 @@ export function optimizeData(allData) {
 		windspeed,
 		windgust,
 		winddir,
+		precip, // Added
 	};
 
-	// Prognoza na 7 dni
+	// 7-day forecast
 	requiredData.days = [];
 	for (let n = 0; n < 7; n++) {
 		const {
@@ -47,6 +49,8 @@ export function optimizeData(allData) {
 			windgust,
 			conditions,
 			cloudcover,
+			precip, // Daily precipitation total
+			precipprob, // Probability of precipitation
 			hours,
 		} = allData.days[n];
 
@@ -56,6 +60,7 @@ export function optimizeData(allData) {
 			icon: hour.icon,
 			windspeed: hour.windspeed,
 			winddir: hour.winddir,
+			precip: hour.precip, // Hourly precipitation
 		}));
 
 		requiredData.days[n] = {
@@ -68,11 +73,13 @@ export function optimizeData(allData) {
 			windgust,
 			conditions,
 			cloudcover,
+			precip, // Added
+			precipprob, // Added
 			hours: optimizedHours,
 		};
 	}
 
 	console.log('requiredData', requiredData);
 
-	return requiredData; // zwracamy nowy obiekt
+	return requiredData;
 }
