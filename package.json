@@ -7,7 +7,8 @@
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"start": "webpack serve --open --config webpack.dev.js",
 		"build": "webpack --config webpack.prod.js",
-		"deploy": "git subtree push --prefix dist origin gh-pages",
+		"predeploy": "npm run build",
+		"deploy": "gh-pages -d dist",
 		"biome": "biome check --write"
 	},
 	"keywords": [],
@@ -16,6 +17,7 @@
 	"devDependencies": {
 		"@biomejs/biome": "2.2.5",
 		"css-loader": "^7.1.2",
+		"gh-pages": "^6.3.0",
 		"html-loader": "^5.1.0",
 		"html-webpack-plugin": "^5.6.3",
 		"style-loader": "^4.0.0",

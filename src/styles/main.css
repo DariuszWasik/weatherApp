@@ -130,6 +130,59 @@ header .search-bar {
 	transform: translateY(1px);
 }
 
+/* ===== Search row ===== */
+.search-row {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+/* ===== Geo Button ===== */
+.geo-btn {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+
+	padding: 10px 14px;
+	height: 42px;
+
+	border-radius: 12px;
+	border: 1px solid var(--border);
+	background: rgba(255, 255, 255, 0.04);
+
+	color: var(--muted);
+	font-size: 13px;
+	font-weight: 500;
+
+	cursor: pointer;
+	transition: all 0.2s ease;
+	white-space: nowrap;
+}
+
+.geo-btn:hover {
+	background: rgba(255, 255, 255, 0.08);
+	color: var(--text);
+	border-color: rgba(90, 209, 255, 0.35);
+}
+
+.geo-btn:active {
+	transform: translateY(1px);
+}
+
+.geo-btn:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.geo-text {
+	font-size: 13px;
+	color: var(--muted);
+}
+
+.geo-icon {
+	font-size: 16px;
+	opacity: 0.85;
+}
 /* ===== Suggestions list ===== */
 #suggestions {
 	position: absolute;
@@ -590,6 +643,22 @@ header .search-bar {
 		width: 24%;
 	}
 }
+
+@media (max-width: 860px) {
+	.geo-btn {
+		padding: 8px 12px;
+		height: 38px;
+	}
+
+	.geo-text {
+		font-size: 12px;
+	}
+
+	.geo-icon {
+		font-size: 15px;
+	}
+}
+
 /* ===== MOBILE FIX: box-1 ultra-compact ===== */
 @media (max-width: 520px) {
 	/* Box-1 sam w sobie - mniejszy padding */

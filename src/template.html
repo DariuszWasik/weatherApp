@@ -9,7 +9,14 @@
     <header>
         <div class="app-icone"></div>
         <div class="search-bar">
-            <input id='my-city' type="text" placeholder="enter your city name" autocomplete="off">
+            <div class="search-row">
+                <input id="my-city" type="text" placeholder="enter your city name" autocomplete="off">
+
+                <button id="geo-btn" class="geo-btn">
+                    <span class="geo-text">Current</span>
+                    <span class="geo-icon">📍</span>
+                </button>
+            </div>
             <ul id="suggestions" style="list-style: none; padding: 0;"></ul>
         </div>
         <div class="change-units"></div>
