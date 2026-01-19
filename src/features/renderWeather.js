@@ -1,3 +1,5 @@
+import sunriseIcon from '../assets/icons/sunrise.svg';
+import sunsetIcon from '../assets/icons/sunset.svg';
 import { formatDate } from '../utils/formatDate';
 import { getRelevantHours } from '../utils/getRelevantHours';
 import { getWeatherIcon } from '../utils/getWeatherIcon';
@@ -102,8 +104,14 @@ export async function renderWeather(requiredData) {
 	windGustsEl.textContent = `Gusts: ${current.windgust} km/h`;
 
 	// Extra-info
-	sunriseEl.textContent = `Sunrise: ${current.sunrise}`;
-	sunsetEl.textContent = `Sunset: ${current.sunset}`;
+	sunriseEl.innerHTML = `
+    <img src="${sunriseIcon}" class="sun-icon" alt="Sunrise">
+    Sunrise ${current.sunrise}`;
+
+	sunsetEl.innerHTML = `
+    <img src="${sunsetIcon}" class="sun-icon" alt="Sunset">
+    Sunset ${current.sunset}
+`;
 	humidityEl.textContent = `Humidity: ${current.humidity}%`;
 	chanceOfRainEl.textContent = `Cloud cover: ${today.cloudcover}%`;
 

@@ -545,6 +545,14 @@ header .search-bar {
 	color: var(--accent);
 }
 
+.sun-icon {
+	width: 18px;
+	height: 18px;
+	vertical-align: -3px; /* idealne wyrównanie z tekstem */
+	margin-right: 6px;
+	opacity: 0.9;
+}
+
 /* ===== Responsive ===== */
 @media (max-width: 860px) {
 	.current {
