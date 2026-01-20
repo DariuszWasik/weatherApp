@@ -12,6 +12,7 @@ export function optimizeData(allData) {
 		feelslike,
 		humidity,
 		pressure,
+		uvindex,
 		icon,
 		sunrise,
 		sunset,
@@ -19,13 +20,14 @@ export function optimizeData(allData) {
 		windspeed,
 		windgust,
 		winddir,
-		precip, // Added precipitation
+		precip,
 	} = allData.currentConditions;
 
 	requiredData.currentConditions = {
 		feelslike,
 		humidity,
 		pressure,
+		uvindex,
 		icon,
 		sunrise,
 		sunset,
@@ -33,7 +35,7 @@ export function optimizeData(allData) {
 		windspeed,
 		windgust,
 		winddir,
-		precip, // Added
+		precip,
 	};
 
 	// 7-day forecast
@@ -49,8 +51,10 @@ export function optimizeData(allData) {
 			windgust,
 			conditions,
 			cloudcover,
-			precip, // Daily precipitation total
-			precipprob, // Probability of precipitation
+			precip,
+			precipprob,
+			pressure,
+			uvindex,
 			hours,
 		} = allData.days[n];
 
@@ -60,7 +64,7 @@ export function optimizeData(allData) {
 			icon: hour.icon,
 			windspeed: hour.windspeed,
 			winddir: hour.winddir,
-			precip: hour.precip, // Hourly precipitation
+			precip: hour.precip,
 		}));
 
 		requiredData.days[n] = {
@@ -73,8 +77,10 @@ export function optimizeData(allData) {
 			windgust,
 			conditions,
 			cloudcover,
-			precip, // Added
-			precipprob, // Added
+			precip,
+			precipprob,
+			pressure, // ✅ TERAZ TEŻ ZAPISUJEMY PRESSURE
+			uvindex,
 			hours: optimizedHours,
 		};
 	}

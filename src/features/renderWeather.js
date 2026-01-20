@@ -34,6 +34,8 @@ export async function renderWeather(requiredData) {
 	const sunsetEl = document.querySelector('.sunset');
 	const humidityEl = document.querySelector('.humidity');
 	const chanceOfRainEl = document.querySelector('.chance-of-rain');
+	const pressureEl = document.querySelector('.pressure');
+	const uvIndexEl = document.querySelector('.uv-index');
 
 	const nextDaysEl = document.querySelector('.next-days');
 
@@ -105,15 +107,29 @@ export async function renderWeather(requiredData) {
 
 	// Extra-info
 	sunriseEl.innerHTML = `
-    <img src="${sunriseIcon}" class="sun-icon" alt="Sunrise">
-    Sunrise ${current.sunrise}`;
+		<img src="${sunriseIcon}" class="sun-icon" alt="Sunrise">
+		Sunrise ${current.sunrise}`;
 
 	sunsetEl.innerHTML = `
-    <img src="${sunsetIcon}" class="sun-icon" alt="Sunset">
-    Sunset ${current.sunset}
-`;
+		<img src="${sunsetIcon}" class="sun-icon" alt="Sunset">
+		Sunset ${current.sunset}
+	`;
+
 	humidityEl.textContent = `Humidity: ${current.humidity}%`;
 	chanceOfRainEl.textContent = `Cloud cover: ${today.cloudcover}%`;
+
+	// Pressure (only from today's data)
+	const pressure = today.pressure ?? 'N/A';
+	pressureEl.innerHTML = `Pressure: ${pressure} hPa`;
+
+	// UV Index (only from today's data)
+	const uvindex = today.uvindex ?? 0;
+	const uvColor = getUVColor(uvindex);
+	const uvLevel = getUVLevel(uvindex);
+	uvIndexEl.innerHTML = `
+		UV Index: <span style="color: ${uvColor}; font-size: 18px;">${uvindex}</span>
+		<span style="font-size: 11px; color: var(--muted);"> ${uvLevel}</span>
+	`;
 
 	// Next-days (forecast for next 6 days)
 	nextDaysEl.innerHTML = ''; // Clear previous
@@ -150,6 +166,7 @@ export async function renderWeather(requiredData) {
 		nextDaysEl.append(dayCard);
 	}
 }
+
 async function showHourlyModal(dayData) {
 	const modal = document.getElementById('hourly-modal');
 	const tableBody = document.getElementById('modal-table-body');
@@ -195,4 +212,26 @@ async function showHourlyModal(dayData) {
 	const closeModal = () => modal.classList.add('hidden');
 	closeBtn.onclick = closeModal;
 	overlay.onclick = closeModal;
+}
+
+/**
+ * Returns color based on UV index level
+ */
+function getUVColor(uv) {
+	if (uv <= 2) return '#4ade80'; // green (low)
+	if (uv <= 5) return '#facc15'; // yellow (moderate)
+	if (uv <= 7) return '#fb923c'; // orange (high)
+	if (uv <= 10) return '#f87171'; // red (very high)
+	return '#c084fc'; // purple (extreme)
+}
+
+/**
+ * Returns UV level text
+ */
+function getUVLevel(uv) {
+	if (uv <= 2) return 'Low';
+	if (uv <= 5) return 'Moderate';
+	if (uv <= 7) return 'High';
+	if (uv <= 10) return 'Very High';
+	return 'Extreme';
 }
