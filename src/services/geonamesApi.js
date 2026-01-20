@@ -42,17 +42,24 @@ export async function fetchCityNameFromCoords(lat, lon) {
 
 	const data = await response.json();
 
-	const place = data.geonames?.[0];
-	if (!place) return 'Unknown location';
+	const places = data.geonames;
+	if (!places || places.length === 0) return 'Unknown location';
 
-	// Extract details
+	// Sort by distance so the closest place is first
+	places.sort((a, b) => Number(a.distance) - Number(b.distance));
+
+	// Closest place
+	const place = places[0];
+
 	const name = place.name;
-	const region = place.adminName1; // e.g. Bavaria
-	const country = place.countryCode; // e.g. DE
+	const district = place.adminName2; // powiat
+	const region = place.adminName1; // land / województwo
+	const country = place.countryCode;
 
-	// Build string dynamically
 	let fullName = name;
 
+	// Add details if available
+	if (district) fullName += `, ${district}`;
 	if (region) fullName += `, ${region}`;
 	if (country) fullName += `, ${country}`;
 
