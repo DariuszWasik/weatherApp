@@ -172,17 +172,14 @@ async function showHourlyModal(dayData) {
 	const tableBody = document.getElementById('modal-table-body');
 	const modalTitle = document.getElementById('modal-title');
 
-	// Pobieramy nazwę dnia tygodnia (np. "Monday")
 	const dateObj = new Date(dayData.datetime);
 	const dayName = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(
 		dateObj,
 	);
 
-	// Ustawiamy tytuł: "Monday, 2024-05-20"
-	modalTitle.textContent = `Hourly Forecast: ${dayName}, ${dayData.datetime}`;
+	modalTitle.textContent = `${dayName}, ${dayData.datetime}`;
 
-	tableBody.innerHTML = ''; // Czyścimy stare dane
-
+	tableBody.innerHTML = '';
 	for (const hour of dayData.hours) {
 		const row = document.createElement('tr');
 		const iconUrl = await getWeatherIcon(hour.icon);
